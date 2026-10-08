@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Portfolio of Amish Kumar Chandarvanshi, B.Tech CSE student: data, machine learning and web projects in Python.">
+<title>Amish Kumar Chandarvanshi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+body { margin: 0; }
+/* Layout: left-aligned single column. Hero pairs the name with a drawn nearest-neighbour plot (the idea behind CineMatch); projects lead with one featured entry, then two plain rows. */
+:root {
+  --bg: #F2F4F6;
+  --surface: #FFFFFF;
+  --ink: #101A24;
+  --muted: #56636F;
+  --line: #D5DBE1;
+  --accent: #2B50D9;
+  --accent-ink: #FFFFFF;
+  --grid: rgba(16, 26, 36, 0.07);
+  --point: #9AA6B2;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Hanken Grotesk", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D131A; --surface: #141C25; --ink: #E8EDF2; --muted: #9AA7B4; --line: #26313C;
+    --accent: #7F9BFF; --accent-ink: #0D131A; --grid: rgba(232, 237, 242, 0.07); --point: #4A5866;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D131A; --surface: #141C25; --ink: #E8EDF2; --muted: #9AA7B4; --line: #26313C;
+  --accent: #7F9BFF; --accent-ink: #0D131A; --grid: rgba(232, 237, 242, 0.07); --point: #4A5866;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 1rem/1.65 var(--body);
+  padding-inline: 20px;
+  padding-block: 0;
+}
+.wrap { width: 100%; max-width: 1040px; margin-inline: auto; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -0.02em; line-height: 1.1; }
+h2 { font-size: clamp(1.6rem, 3.4vw, 2.1rem); font-weight: 700; }
+h3 { font-size: 1.25rem; font-weight: 650; letter-spacing: -0.01em; }
+p { margin: 0; max-width: 62ch; }
+ul { margin: 0; padding: 0; }
+
+/* header */
+.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--bg); border-bottom: 1px solid var(--line);
+  margin-inline: -20px; padding-inline: 20px;
+}
+.bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 20px; padding-block: 12px; }
+.brand { font: 700 1.05rem/1 var(--display); color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+.top nav { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.top nav a { color: var(--muted); text-decoration: none; font-size: 0.92rem; font-weight: 500; }
+.top nav a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 5px; }
+
+/* hero */
+.hero { position: relative; padding-block: clamp(40px, 8vw, 88px) clamp(40px, 7vw, 72px); }
+.hero::before {
+  content: ""; position: absolute; inset: 0 -20px; z-index: -1; pointer-events: none;
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent);
+  mask-image: linear-gradient(to bottom, #000 40%, transparent);
+}
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+.hero h1 { font-size: clamp(2.5rem, 7vw, 4.6rem); font-weight: 750; }
+.lead { font-size: clamp(1.08rem, 2vw, 1.28rem); line-height: 1.55; margin-top: 20px; }
+.status { margin-top: 14px; color: var(--muted); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.btn {
+  display: inline-flex; align-items: center; padding: 11px 18px; border-radius: 8px;
+  font: 600 0.95rem/1 var(--body); text-decoration: none; color: var(--ink);
+  border: 1px solid var(--line); background: var(--surface); cursor: pointer;
+}
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.primary:hover { filter: brightness(1.08); }
+figure { margin: 0; min-width: 0; }
+#plot { display: block; width: 100%; max-width: 100%; aspect-ratio: 4 / 3; }
+figcaption { margin-top: 8px; color: var(--muted); font-size: 0.85rem; max-width: 46ch; }
+
+/* sections */
+section { padding-block: clamp(44px, 7vw, 76px); border-top: 1px solid var(--line); scroll-margin-top: 56px; }
+.sec-head { margin-bottom: clamp(24px, 4vw, 36px); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; }
+.tags li { font: 500 0.78rem/1 var(--mono); padding: 7px 9px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); }
+.links { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 16px; font-weight: 600; }
+
+.featured { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: clamp(20px, 4vw, 32px); display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 44px); align-items: center; }
+.featured-text { display: grid; gap: 16px; min-width: 0; align-content: start; }
+.viz { margin: 0; min-width: 0; }
+.viz canvas { display: block; width: 100%; max-width: 100%; aspect-ratio: 4 / 3; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; }
+.viz figcaption { margin-top: 8px; font-size: 0.82rem; color: var(--muted); max-width: none; }
+.featured ul.points { padding-left: 1.2em; display: grid; gap: 8px; max-width: 68ch; }
+.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 5vw, 56px); margin-top: clamp(28px, 4vw, 40px); }
+.row { display: grid; gap: 12px; align-content: start; padding-top: 20px; border-top: 1px solid var(--line); }
+
+.how { margin-top: clamp(28px, 4vw, 40px); }
+.how h3 { margin-bottom: 16px; }
+.how ol { list-style: none; counter-reset: step; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px clamp(20px, 4vw, 40px); }
+.how li { counter-increment: step; display: grid; gap: 6px; align-content: start; padding-top: 14px; border-top: 2px solid var(--accent); }
+.how li strong::before { content: counter(step) ". "; font-family: var(--mono); font-weight: 500; color: var(--accent); }
+.how p { font-size: 0.95rem; color: var(--muted); }
+
+/* skills */
+.skills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px clamp(24px, 5vw, 56px); }
+.skills h3 { font-size: 1rem; margin-bottom: 10px; }
+
+/* experience */
+.timeline { list-style: none; display: grid; gap: 28px; }
+.timeline li { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 8px 28px; }
+.when { color: var(--muted); font: 500 0.9rem/1.6 var(--mono); }
+.timeline h3 { font-size: 1.1rem; }
+.timeline p { margin-top: 6px; }
+.sub { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px clamp(24px, 5vw, 56px); margin-top: clamp(36px, 5vw, 52px); }
+.sub h3 { margin-bottom: 12px; font-size: 1.1rem; }
+.certs { list-style: none; display: grid; gap: 10px; }
+.certs span { color: var(--muted); display: block; font-size: 0.92rem; }
+
+/* contact */
+.mail { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 20px; }
+#email-text { font: 500 1.05rem/1.4 var(--mono); user-select: all; overflow-wrap: anywhere; }
+#copy-state { color: var(--muted); font-size: 0.9rem; min-height: 1.4em; margin-top: 8px; }
+footer { padding-block: 28px 36px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.88rem; }
+
+@media (max-width: 760px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .pair, .skills, .sub, .how ol, .featured { grid-template-columns: minmax(0, 1fr); }
+  .featured .viz { order: -1; }
+  .timeline li { grid-template-columns: minmax(0, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#top">Amish Kumar</a>
+    <nav aria-label="Sections">
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+  <div class="hero">
+    <div class="hero-grid">
+      <div>
+        <h1>Amish Kumar Chandarvanshi</h1>
+        <p class="lead">I build data and machine learning projects in Python, and turn them into web apps that other people can use.</p>
+        <p class="status">B.Tech Computer Science student at JNCT Bhopal, 2023 to 2027. Looking for an entry-level role in data analytics, machine learning or software development.</p>
+        <div class="actions">
+          <a class="btn primary" href="#projects">See my projects</a>
+          <a class="btn" href="https://github.com/amish822125" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="btn" href="https://linkedin.com/in/amish-kumar-chandarvanshi-257bbb304" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+      </div>
+      <figure>
+        <canvas id="plot" role="img" aria-label="Scatter plot of points with one query point and its five nearest neighbours highlighted"></canvas>
+        <figcaption>Illustration: a content-based recommender finds the items closest to the one you picked. This is the idea behind CineMatch.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <section id="projects">
+    <div class="sec-head"><h2>Projects</h2></div>
+
+    <article class="featured">
+      <div class="featured-text">
+      <h3>CineMatch, a movie recommendation system</h3>
+      <p>Pick a movie and get similar ones. Matches are ranked by how close the movies' text data is, so the app does not need other users' ratings.</p>
+      <ul class="points">
+        <li>Built a content-based recommender using TF-IDF and cosine similarity on a TMDB movie dataset, with a Flask backend and an HTML, CSS and JavaScript frontend.</li>
+        <li>Fixed data problems such as data-type mismatches, duplicate titles and case-sensitive search, which made results more reliable.</li>
+        <li>Added live search, genre filters, a mood picker, trailers, favorites saved in the browser, and a stats dashboard with charts.</li>
+        <li>Fetched posters from the TMDB API in parallel threads with an in-memory cache, so movie grids load without waiting on each request.</li>
+        <li>Deployed the application on Render with a redesigned frontend.</li>
+      </ul>
+      <ul class="tags" aria-label="Tools used">
+        <li>Python</li><li>Flask</li><li>Scikit-learn</li><li>TF-IDF</li><li>TMDB API</li><li>HTML / CSS / JS</li>
+      </ul>
+      <div class="links" style="margin-top:0">
+        <a href="https://github.com/amish822125/cinematch" target="_blank" rel="noopener noreferrer">Source code on GitHub</a>
+      </div>
+      </div>
+      <figure class="viz">
+        <canvas id="viz-cinematch" role="img" aria-label="Rotating 3D cloud of movie points. Each pick lights up its five nearest neighbours."></canvas>
+        <figcaption>Illustration: movies as points in 3D space. Each pick lights up its five nearest neighbours. Drag to rotate.</figcaption>
+      </figure>
+    </article>
+
+    <div class="how">
+      <h3>How CineMatch works</h3>
+      <ol>
+        <li>
+          <strong>Prepare once</strong>
+          <p>The movie dataset and its TF-IDF vectors are saved as files and loaded when the app starts, so nothing is rebuilt on each request.</p>
+        </li>
+        <li>
+          <strong>Compare</strong>
+          <p>For the chosen title, matched without caring about case, the app scores every movie with cosine similarity, skips the movie itself and returns the top 8 with a match percentage.</p>
+        </li>
+        <li>
+          <strong>Show</strong>
+          <p>Posters come from the TMDB API, fetched with 10 threads and cached in memory. If a lookup fails, the card still loads without a poster.</p>
+        </li>
+      </ol>
+    </div>
+
+    <div class="pair">
+      <article class="row">
+        <figure class="viz">
+          <canvas id="viz-car" role="img" aria-label="Rotating 3D scatter of cars with a fitted price plane over year and mileage."></canvas>
+          <figcaption>Illustration: price depends on year and mileage. The plane is the fitted model and the lines show its errors. Drag to rotate.</figcaption>
+        </figure>
+        <h3>Car Price Predictor</h3>
+        <p>A regression model that predicts the resale price of a used car from its year, mileage, fuel type and brand. Includes the data cleaning and feature engineering behind it.</p>
+        <ul class="tags" aria-label="Tools used"><li>Python</li><li>Pandas</li><li>Scikit-learn</li></ul>
+        <div class="links" style="margin-top:0"><a href="https://github.com/amish822125/Car_Price_Predictor" target="_blank" rel="noopener noreferrer">Source code on GitHub</a></div>
+      </article>
+      <article class="row">
+        <figure class="viz">
+          <canvas id="viz-auction" role="img" aria-label="Rotating 3D bars that rise one by one inside a wireframe cube, ending with the top bid highlighted."></canvas>
+          <figcaption>Illustration: bids rise one by one inside a secure boundary, and the highest bid wins. Drag to rotate.</figcaption>
+        </figure>
+        <h3>Secure Online Auction System</h3>
+        <p>A secure online auction platform, built as an academic minor project in a team of three. My part was system design and technical documentation.</p>
+        <ul class="tags" aria-label="Project type"><li>Team of 3</li><li>Academic minor project</li></ul>
+      </article>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="sec-head"><h2>Skills</h2></div>
+    <div class="skills">
+      <div>
+        <h3>Languages</h3>
+        <ul class="tags"><li>Python</li><li>SQL</li><li>JavaScript (basics)</li></ul>
+      </div>
+      <div>
+        <h3>Data and machine learning</h3>
+        <ul class="tags"><li>Pandas</li><li>NumPy</li><li>Scikit-learn</li><li>Matplotlib</li><li>TF-IDF</li><li>Content-based filtering</li></ul>
+      </div>
+      <div>
+        <h3>Web and backend</h3>
+        <ul class="tags"><li>Flask</li><li>Django</li><li>REST APIs</li><li>HTML</li><li>CSS</li><li>Bootstrap</li></ul>
+      </div>
+      <div>
+        <h3>Tools</h3>
+        <ul class="tags"><li>Git and GitHub</li><li>Jupyter Notebook</li><li>MS Excel</li><li>Power BI</li><li>Streamlit</li><li>ReportLab</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="sec-head"><h2>Experience and learning</h2></div>
+    <ol class="timeline">
+      <li>
+        <div class="when">Apr to Jun 2025</div>
+        <div>
+          <h3>AI-ML Virtual Internship, AICTE (EduSkills)</h3>
+          <p>A 10-week virtual internship in artificial intelligence and machine learning, supported by Google for Developers.</p>
+        </div>
+      </li>
+      <li>
+        <div class="when">2026</div>
+        <div>
+          <h3>Python Full Stack Internship, EduSkills Academy</h3>
+          <p>A 10-week program covering HTML, CSS, Bootstrap, JavaScript, jQuery, Python, Django, SQL and Git. Built and deployed web applications.</p>
+        </div>
+      </li>
+    </ol>
+
+    <div class="sub">
+      <div>
+        <h3>Education</h3>
+        <p><strong>B.Tech, Computer Science &amp; Engineering</strong><br>Jai Narain College of Technology (JNCT), Bhopal<br><span style="color:var(--muted)">RGPV University, 2023 to 2027</span></p>
+      </div>
+      <div>
+        <h3>Certifications</h3>
+        <ul class="certs">
+          <li>Introduction to Modern AI<span>Cisco Networking Academy</span></li>
+          <li>Python for Data Science<span>NPTEL (IIT Madras)</span></li>
+          <li>Python Essentials 1<span>Cisco Networking Academy / Python Institute</span></li>
+          <li>Data Analytics Job Simulation<span>Deloitte (Forage)</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="sec-head"><h2>Contact</h2></div>
+    <p>I am looking for an entry-level role and happy to talk about my projects. Email is the quickest way to reach me.</p>
+    <div class="mail">
+      <span id="email-text">kamish437@gmail.com</span>
+      <button class="btn" id="copy-btn" type="button">Copy email</button>
+      <a class="btn primary" href="mailto:kamish437@gmail.com">Write an email</a>
+    </div>
+    <div id="copy-state" role="status" aria-live="polite"></div>
+    <div class="links">
+      <a href="https://github.com/amish822125" target="_blank" rel="noopener noreferrer">github.com/amish822125</a>
+      <a href="https://linkedin.com/in/amish-kumar-chandarvanshi-257bbb304" target="_blank" rel="noopener noreferrer">LinkedIn profile</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Amish Kumar Chandarvanshi, Bhopal</div>
+</footer>
+
+<script>
+(function () {
+  // Nearest-neighbour illustration, drawn from the page's theme tokens.
+  var canvas = document.getElementById('plot');
+  function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  var rand = rng(11);
+  var centers = [[0.22, 0.30], [0.70, 0.26], [0.30, 0.74], [0.62, 0.62], [0.86, 0.80]];
+  var pts = [];
+  for (var i = 0; i < 74; i++) {
+    var c = centers[i % centers.length];
+    var a = rand() * Math.PI * 2, r = Math.pow(rand(), 0.7) * 0.15;
+    pts.push([Math.min(0.96, Math.max(0.04, c[0] + Math.cos(a) * r)), Math.min(0.94, Math.max(0.06, c[1] + Math.sin(a) * r * 1.1))]);
+  }
+  var query = [0.60, 0.55];
+
+  function draw() {
+    try {
+      var rect = canvas.getBoundingClientRect();
+      if (!rect.width) return;
+      var dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.round(rect.width * dpr);
+      canvas.height = Math.round(rect.height * dpr);
+      var g = canvas.getContext('2d');
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var cs = getComputedStyle(document.documentElement);
+      var col = function (n) { return cs.getPropertyValue(n).trim(); };
+      var W = rect.width, H = rect.height;
+      var P = function (p) { return [p[0] * W, p[1] * H]; };
+      var q = P(query);
+      var dist = function (p) { var s = P(p); return Math.hypot(s[0] - q[0], s[1] - q[1]); };
+      var order = pts.slice().sort(function (a, b) { return dist(a) - dist(b); });
+      var near = order.slice(0, 5);
+      var rad = dist(near[4]);
+
+      g.clearRect(0, 0, W, H);
+      g.strokeStyle = col('--line'); g.lineWidth = 1;
+      g.strokeRect(0.5, 0.5, W - 1, H - 1);
+
+      g.globalAlpha = 0.5; g.strokeStyle = col('--accent'); g.setLineDash([4, 5]);
+      g.beginPath(); g.arc(q[0], q[1], rad, 0, Math.PI * 2); g.stroke();
+      g.setLineDash([]); g.globalAlpha = 1;
+
+      g.fillStyle = col('--point');
+      pts.forEach(function (p) {
+        if (near.indexOf(p) > -1) return;
+        var s = P(p); g.beginPath(); g.arc(s[0], s[1], 3.2, 0, Math.PI * 2); g.fill();
+      });
+
+      g.strokeStyle = col('--accent'); g.lineWidth = 1.6; g.globalAlpha = 0.85;
+      near.forEach(function (p) { var s = P(p); g.beginPath(); g.moveTo(q[0], q[1]); g.lineTo(s[0], s[1]); g.stroke(); });
+      g.globalAlpha = 1;
+      g.fillStyle = col('--accent');
+      near.forEach(function (p) { var s = P(p); g.beginPath(); g.arc(s[0], s[1], 4.6, 0, Math.PI * 2); g.fill(); });
+
+      g.fillStyle = col('--ink');
+      g.beginPath(); g.arc(q[0], q[1], 6.5, 0, Math.PI * 2); g.fill();
+      g.strokeStyle = col('--bg'); g.lineWidth = 2; g.stroke();
+
+      g.font = '500 12px ' + (cs.getPropertyValue('--mono') || 'monospace');
+      g.fillStyle = col('--ink');
+      var label = 'your pick';
+      var lx = Math.min(q[0] + 12, W - g.measureText(label).width - 8);
+      g.fillText(label, lx, Math.max(16, q[1] - 12));
+      g.fillStyle = col('--muted');
+      g.fillText('5 nearest', 10, H - 12);
+    } catch (e) { /* the plot is decoration; the page works without it */ }
+  }
+
+  draw();
+  if (window.ResizeObserver) new ResizeObserver(draw).observe(canvas); else window.addEventListener('resize', draw);
+  try { window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw); } catch (e) {}
+  try { new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] }); } catch (e) {}
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+
+  // Copy email
+  var btn = document.getElementById('copy-btn');
+  var emailEl = document.getElementById('email-text');
+  var state = document.getElementById('copy-state');
+  var timer;
+  btn.addEventListener('click', function () {
+    var done = function (msg) { state.textContent = msg; clearTimeout(timer); timer = setTimeout(function () { state.textContent = ''; }, 3000); };
+    var fallback = function () {
+      try { var r = document.createRange(); r.selectNodeContents(emailEl); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); } catch (e) {}
+      done('Email selected. Press Ctrl+C or long-press to copy.');
+    };
+    try {
+      navigator.clipboard.writeText(emailEl.textContent.trim()).then(function () { done('Email copied.'); }, fallback);
+    } catch (e) { fallback(); }
+  });
+})();
+</script>
+<script>
+(function () {
+  // Three small 3D scenes, hand-projected on 2D canvases. No library needed.
+  var reduce = false;
+  try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+
+  var C = {};
+  function refreshColors() {
+    var cs = getComputedStyle(document.documentElement);
+    ['--accent', '--ink', '--muted', '--line', '--point', '--bg', '--surface'].forEach(function (n) {
+      C[n] = (cs.getPropertyValue(n) || '').trim() || '#888888';
+    });
+    C.mono = (cs.getPropertyValue('--mono') || '').trim() || 'monospace';
+  }
+  refreshColors();
+
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+
+  /* ---------- scene base ---------- */
+  function Scene(canvas, spec) {
+    var self = this;
+    this.c = canvas; this.spec = spec;
+    this.yaw = spec.yaw0; this.pitch = spec.pitch0; this.vel = 0;
+    this.drag = false; this.visible = false; this.t0 = null;
+    this.W = 0; this.H = 0; this.dpr = 1;
+    canvas.style.touchAction = 'pan-y';
+    canvas.style.cursor = 'grab';
+    canvas.addEventListener('pointerdown', function (e) {
+      self.drag = true; self.lx = e.clientX; self.ly = e.clientY; self.vel = 0;
+      try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
+      canvas.style.cursor = 'grabbing';
+    });
+    canvas.addEventListener('pointermove', function (e) {
+      if (!self.drag) return;
+      var dx = e.clientX - self.lx, dy = e.clientY - self.ly;
+      self.lx = e.clientX; self.ly = e.clientY;
+      self.yaw += dx * 0.01;
+      self.pitch = clamp(self.pitch + dy * 0.006, -1.0, 1.0);
+      self.vel = clamp(dx * 0.6, -3, 3);
+      if (reduce) self.render(performance.now() / 1000);
+    });
+    ['pointerup', 'pointercancel'].forEach(function (ev) {
+      canvas.addEventListener(ev, function () { self.drag = false; canvas.style.cursor = 'grab'; });
+    });
+    this.resize();
+  }
+  Scene.prototype.resize = function () {
+    var r = this.c.getBoundingClientRect();
+    this.W = r.width; this.H = r.height;
+    this.dpr = window.devicePixelRatio || 1;
+    this.c.width = Math.round(this.W * this.dpr);
+    this.c.height = Math.round(this.H * this.dpr);
+  };
+  Scene.prototype.P = function (x, y, z) {
+    var cy = Math.cos(this.yaw), sy = Math.sin(this.yaw), cp = Math.cos(this.pitch), sp = Math.sin(this.pitch);
+    var x1 = x * cy + z * sy, z1 = -x * sy + z * cy;
+    var y2 = y * cp - z1 * sp, z2 = y * sp + z1 * cp;
+    var k = 5 / (5 - z2), u = Math.min(this.W, this.H) * 0.2;
+    return { x: this.W / 2 + x1 * k * u, y: this.H / 2 - y2 * k * u, k: k, z: z2 };
+  };
+  Scene.prototype.render = function (now) {
+    if (!this.W || !this.H) return;
+    try {
+      var g = this.c.getContext('2d');
+      g.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+      g.clearRect(0, 0, this.W, this.H);
+      var el = reduce ? 99 : (this.t0 === null ? 0 : now - this.t0);
+      this.spec.draw(this, g, el);
+      g.globalAlpha = 1;
+    } catch (e) { if (window.console) console.error(e); }
+  };
+
+  /* ---------- drawing helpers ---------- */
+  function line(g, a, b, color, alpha, w) {
+    g.globalAlpha = alpha; g.strokeStyle = color; g.lineWidth = w || 1;
+    g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); g.stroke();
+  }
+  function wireCube(s, g, r, alpha, color) {
+    var v = [], i;
+    for (i = 0; i < 8; i++) v.push(s.P((i & 1) ? r : -r, (i & 2) ? r : -r, (i & 4) ? r : -r));
+    for (i = 0; i < 8; i++) [1, 2, 4].forEach(function (b) { if (!(i & b)) line(g, v[i], v[i | b], color, alpha, 1); });
+  }
+  function label(g, text, x, y, W, color) {
+    g.font = '500 11px ' + C.mono; g.globalAlpha = 1; g.fillStyle = color;
+    var w = g.measureText(text).width;
+    g.fillText(text, clamp(x, 8, W - w - 8), y);
+  }
+
+  /* ---------- 1. CineMatch: movies as points, nearest neighbours light up ---------- */
+  function cinematch() {
+    var r = rng(7);
+    var centers = [[-0.6, 0.45, -0.3], [0.6, 0.5, 0.2], [-0.45, -0.55, 0.5], [0.55, -0.45, -0.5], [0.0, 0.0, 0.75]];
+    var pts = [], scatter = [], i;
+    for (i = 0; i < 90; i++) {
+      var c = centers[i % 5], a = r() * Math.PI * 2, b = Math.acos(2 * r() - 1), rad = Math.pow(r(), 0.8) * 0.3;
+      pts.push([c[0] + Math.sin(b) * Math.cos(a) * rad, c[1] + Math.cos(b) * rad, c[2] + Math.sin(b) * Math.sin(a) * rad]);
+      scatter.push([(r() - 0.5) * 4.5, (r() - 0.5) * 4.5, (r() - 0.5) * 4.5]);
+    }
+    var queries = [0, 1, 2, 3, 4], neigh = {};
+    queries.forEach(function (q) {
+      var d = [];
+      for (var j = 0; j < pts.length; j++) {
+        if (j === q) continue;
+        d.push([j, Math.hypot(pts[j][0] - pts[q][0], pts[j][1] - pts[q][1], pts[j][2] - pts[q][2])]);
+      }
+      d.sort(function (m, n) { return m[1] - n[1]; });
+      neigh[q] = d.slice(0, 5).map(function (e) { return e[0]; });
+    });
+    return {
+      yaw0: 0.5, pitch0: 0.35, spin: 0.2,
+      draw: function (s, g, el) {
+        var period = 3.6, el2 = reduce ? 99 : Math.max(0, el - 1.7);
+        var step = reduce ? 0 : Math.floor(el2 / period), ph = reduce ? 0.9 : (el2 % period) / period;
+        var qi = queries[step % queries.length], nb = neigh[qi];
+        var hp = ease(clamp((ph - 0.04) / 0.25, 0, 1));
+        var P = [], k, a;
+        for (k = 0; k < pts.length; k++) {
+          a = reduce ? 1 : ease(clamp((el - k * 0.012) / 1.3, 0, 1));
+          P[k] = s.P(lerp(scatter[k][0], pts[k][0], a), lerp(scatter[k][1], pts[k][1], a), lerp(scatter[k][2], pts[k][2], a));
+          P[k].a = a;
+        }
+        wireCube(s, g, 1.15, 0.35, C['--line']);
+        var order = P.map(function (_, idx) { return idx; }).sort(function (m, n) { return P[m].z - P[n].z; });
+        order.forEach(function (idx) {
+          if (idx === qi || nb.indexOf(idx) > -1) return;
+          var p = P[idx];
+          g.globalAlpha = p.a * clamp((p.k - 0.7) * 1.4, 0.25, 1);
+          g.fillStyle = C['--point'];
+          g.beginPath(); g.arc(p.x, p.y, 2.4 * p.k, 0, Math.PI * 2); g.fill();
+        });
+        var q = P[qi];
+        nb.forEach(function (idx) {
+          var p = P[idx];
+          line(g, q, { x: lerp(q.x, p.x, hp), y: lerp(q.y, p.y, hp) }, C['--accent'], 0.85 * q.a, 1.5);
+        });
+        nb.forEach(function (idx) {
+          var p = P[idx];
+          g.globalAlpha = p.a; g.fillStyle = C['--accent'];
+          g.beginPath(); g.arc(p.x, p.y, (2.6 + 2.2 * hp) * p.k, 0, Math.PI * 2); g.fill();
+        });
+        var pulse = reduce ? 0 : Math.sin(el * 3.2) * 2;
+        g.globalAlpha = 0.5 * q.a; g.strokeStyle = C['--accent']; g.lineWidth = 1.5;
+        g.beginPath(); g.arc(q.x, q.y, (9 + pulse) * q.k, 0, Math.PI * 2); g.stroke();
+        g.globalAlpha = q.a; g.fillStyle = C['--ink'];
+        g.beginPath(); g.arc(q.x, q.y, 5.2 * q.k, 0, Math.PI * 2); g.fill();
+        if (q.a > 0.9) label(g, 'your pick', q.x + 12, q.y - 12, s.W, C['--ink']);
+      }
+    };
+  }
+
+  /* ---------- 2. Car Price Predictor: points around a fitted plane ---------- */
+  function carprice() {
+    var r = rng(21), pts = [], i;
+    var f = function (x, z) { return 0.5 * x - 0.42 * z; };
+    for (i = 0; i < 58; i++) {
+      var x = (r() * 2 - 1) * 0.9, z = (r() * 2 - 1) * 0.9, n = (r() + r() + r() - 1.5) * 0.28;
+      pts.push([x, clamp(f(x, z) + n, -1.1, 1.1), z]);
+    }
+    var O = -1.15;
+    return {
+      yaw0: 0.7, pitch0: 0.4, spin: 0.16,
+      draw: function (s, g, el) {
+        var pa = reduce ? 1 : ease(clamp((el - 1.5) / 0.9, 0, 1));
+        // axes
+        var o = s.P(O, O, O), ax = s.P(1.15, O, O), az = s.P(O, O, 1.15), ay = s.P(O, 1.15, O);
+        line(g, o, ax, C['--muted'], 0.8, 1.2); line(g, o, az, C['--muted'], 0.8, 1.2); line(g, o, ay, C['--muted'], 0.8, 1.2);
+        label(g, 'year', ax.x + 6, ax.y + 4, s.W, C['--muted']);
+        label(g, 'mileage', az.x + 6, az.y + 4, s.W, C['--muted']);
+        label(g, 'price', ay.x + 6, ay.y - 4, s.W, C['--muted']);
+        // plane
+        var quads = [], u, v, N = 6;
+        for (u = 0; u < N; u++) for (v = 0; v < N; v++) {
+          var u0 = -1 + 2 * u / N, u1 = -1 + 2 * (u + 1) / N, v0 = -1 + 2 * v / N, v1 = -1 + 2 * (v + 1) / N;
+          var q = [s.P(u0, f(u0, v0), v0), s.P(u1, f(u1, v0), v0), s.P(u1, f(u1, v1), v1), s.P(u0, f(u0, v1), v1)];
+          q.z = (q[0].z + q[1].z + q[2].z + q[3].z) / 4; quads.push(q);
+        }
+        quads.sort(function (m, n) { return m.z - n.z; });
+        quads.forEach(function (q) {
+          g.beginPath(); g.moveTo(q[0].x, q[0].y);
+          for (var t = 1; t < 4; t++) g.lineTo(q[t].x, q[t].y);
+          g.closePath();
+          g.globalAlpha = 0.1 * pa; g.fillStyle = C['--accent']; g.fill();
+          g.globalAlpha = 0.4 * pa; g.strokeStyle = C['--accent']; g.lineWidth = 1; g.stroke();
+        });
+        // points and residuals
+        var P = pts.map(function (p, idx) {
+          var a = reduce ? 1 : ease(clamp((el - idx * 0.02) / 0.9, 0, 1));
+          var pr = s.P(p[0], p[1] + (1 - a) * 1.8, p[2]); pr.a = a; pr.base = s.P(p[0], f(p[0], p[2]), p[2]);
+          return pr;
+        });
+        P.forEach(function (p) { line(g, p, p.base, C['--muted'], 0.55 * pa * p.a, 1); });
+        P.slice().sort(function (m, n) { return m.z - n.z; }).forEach(function (p) {
+          g.globalAlpha = p.a * clamp((p.k - 0.7) * 1.4, 0.35, 1);
+          g.fillStyle = C['--accent'];
+          g.beginPath(); g.arc(p.x, p.y, 3.2 * p.k, 0, Math.PI * 2); g.fill();
+        });
+      }
+    };
+  }
+
+  /* ---------- 3. Auction: bids rise one by one inside a secure boundary ---------- */
+  function box(s, g, cx, y0, cz, w, h, d, fill, alpha) {
+    if (h < 0.01) return;
+    var hw = w / 2, hd = d / 2, v = [], i;
+    for (i = 0; i < 8; i++) v.push(s.P(cx + ((i & 1) ? hw : -hw), y0 + ((i & 2) ? h : 0), cz + ((i & 4) ? hd : -hd)));
+    var faces = [[0, 2, 6, 4, 0.6], [1, 3, 7, 5, 0.6], [2, 3, 7, 6, 1], [0, 1, 3, 2, 0.8], [4, 5, 7, 6, 0.8]];
+    faces.forEach(function (f) { f.z = (v[f[0]].z + v[f[1]].z + v[f[2]].z + v[f[3]].z) / 4; });
+    faces.sort(function (m, n) { return m.z - n.z; });
+    faces.forEach(function (f) {
+      g.beginPath(); g.moveTo(v[f[0]].x, v[f[0]].y);
+      for (var t = 1; t < 4; t++) g.lineTo(v[f[t]].x, v[f[t]].y);
+      g.closePath();
+      g.globalAlpha = alpha * f[4]; g.fillStyle = fill; g.fill();
+      g.globalAlpha = 0.5; g.strokeStyle = C['--bg']; g.lineWidth = 1; g.stroke();
+    });
+  }
+  function auction() {
+    var vals = [0.3, 0.48, 0.62, 0.8, 1.0], Y0 = -1.2, MAXH = 2.0;
+    return {
+      yaw0: -0.55, pitch0: 0.38, spin: 0.18,
+      draw: function (s, g, el) {
+        var cycle = 8.4, tc = reduce ? 5 : el % cycle;
+        var shrink = reduce ? 0 : ease(clamp((tc - 7.2) / 1.0, 0, 1));
+        wireCube(s, g, 1.2, 0.5, C['--accent']);
+        for (var t = -1.2; t <= 1.21; t += 0.6) {
+          line(g, s.P(t, Y0, -1.2), s.P(t, Y0, 1.2), C['--line'], 0.7, 1);
+          line(g, s.P(-1.2, Y0, t), s.P(1.2, Y0, t), C['--line'], 0.7, 1);
+        }
+        var bars = vals.map(function (val, i) {
+          var gr = reduce ? 1 : ease(clamp((tc - 0.6 - i * 0.75) / 0.8, 0, 1));
+          var h = val * MAXH * gr * (1 - shrink), cx = -0.9 + i * 0.45;
+          return { i: i, cx: cx, h: h, gr: gr, z: s.P(cx, Y0 + h / 2, 0).z };
+        });
+        bars.sort(function (m, n) { return m.z - n.z; });
+        var top = null;
+        bars.forEach(function (b) {
+          var win = b.i === 4 && b.gr > 0.99 && shrink === 0;
+          box(s, g, b.cx, Y0, 0, 0.3, b.h, 0.3, win ? C['--accent'] : C['--muted'], 0.92);
+          if (win) top = b;
+        });
+        if (top) {
+          var m = s.P(top.cx, Y0 + top.h + 0.22, 0), d = 6 * m.k;
+          g.globalAlpha = 1; g.fillStyle = C['--accent'];
+          g.beginPath(); g.moveTo(m.x, m.y - d); g.lineTo(m.x + d, m.y); g.lineTo(m.x, m.y + d); g.lineTo(m.x - d, m.y); g.closePath(); g.fill();
+          label(g, 'top bid', m.x + d + 6, m.y + 4, s.W, C['--ink']);
+        }
+      }
+    };
+  }
+
+  /* ---------- wiring ---------- */
+  var scenes = [], raf = 0, last = 0;
+  function tick(ts) {
+    var now = ts / 1000, dt = Math.min(0.05, now - last), any = false;
+    last = now;
+    scenes.forEach(function (s) {
+      if (!s.visible) return;
+      any = true;
+      if (!s.drag) { s.yaw += (s.spec.spin + s.vel) * dt; s.vel *= 0.94; }
+      s.render(now);
+    });
+    raf = any ? requestAnimationFrame(tick) : 0;
+  }
+  function start() {
+    if (raf || reduce) return;
+    last = performance.now() / 1000;
+    raf = requestAnimationFrame(tick);
+  }
+  function redrawIdle() { if (reduce) scenes.forEach(function (s) { if (s.visible) s.render(performance.now() / 1000); }); }
+
+  function add(id, spec) {
+    var c = document.getElementById(id);
+    if (!c) return;
+    var s = new Scene(c, spec); c.__scene = s; scenes.push(s);
+    if (window.ResizeObserver) new ResizeObserver(function () { s.resize(); if (reduce && s.visible) s.render(performance.now() / 1000); }).observe(c);
+    if (!window.IntersectionObserver) { s.visible = true; s.t0 = performance.now() / 1000; }
+    return s;
+  }
+  add('viz-cinematch', cinematch());
+  add('viz-car', carprice());
+  add('viz-auction', auction());
+
+  if (window.IntersectionObserver) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var s = e.target.__scene; if (!s) return;
+        s.visible = e.isIntersecting;
+        if (s.visible && s.t0 === null) s.t0 = performance.now() / 1000;
+        if (s.visible) { if (reduce) s.render(performance.now() / 1000); else start(); }
+      });
+    }, { threshold: 0.2 });
+    scenes.forEach(function (s) { io.observe(s.c); });
+  } else { start(); redrawIdle(); }
+
+  try { window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () { refreshColors(); redrawIdle(); }); } catch (e) {}
+  try { new MutationObserver(function () { refreshColors(); redrawIdle(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] }); } catch (e) {}
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { refreshColors(); redrawIdle(); });
+})();
+</script>
+</body>
+</html>
